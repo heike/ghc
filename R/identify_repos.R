@@ -33,7 +33,7 @@ ghc <- function(course = "451", f) {
   # which assignment do you want to deal with?
   selection <- menu(folders$choice, title="Which assignment?")
 
-  selected <- repos_df |> slice(grep(folders$prefix[selection], names))
+  selected <- repos_df |> dplyr::slice(grep(paste0("^",folders$prefix[selection]), names))
   repos_selected <- repos |> purrr::keep(.p = function(x) x$name %in% selected$names)
 
   f(repos_selected, selected$prefix[1])
