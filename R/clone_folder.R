@@ -2,12 +2,12 @@
 #'
 #' @param selected list of repos as returned from `get_org_repos`
 #' @param dest_dir Destination directory (default: working directory)
-#' @param postfix user defined ending for folders, defaults to "-submissions"
+#' @param post_fix user defined ending for folders, defaults to "-submissions"
 #' @export
 #' @examples
 #' \dontrun{
-#' ghc("451", clone_folder)
-#' }
+#'   ghc("451", clone_folder)
+#'   }
 clone_folder <- function(selected, dest_dir, postfix = "submissions") {
   dest_dir <- paste0(dest_dir, postfix)
   if (!dir.exists(dest_dir)) dir.create(dest_dir)

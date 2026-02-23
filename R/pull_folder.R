@@ -2,7 +2,7 @@
 #'
 #' @param selected list of repos as returned from `get_org_repos`
 #' @param dest_dir Destination directory (default: working directory)
-#' @param postfix user defined ending for folders, defaults to "-submissions"
+#' @param post_fix user defined ending for folders, defaults to "-submissions"
 #' @return data frame of repositories arranged by date and time of the last push
 #' @export
 pull_folder <- function(selected, dest_dir, postfix = "submissions") {
