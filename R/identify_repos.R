@@ -36,5 +36,5 @@ ghc <- function(course = "451", f) {
   selected <- repos_df |> dplyr::slice(grep(paste0("^",folders$prefix[selection]), names))
   repos_selected <- repos |> purrr::keep(.p = function(x) x$name %in% selected$names)
 
-  f(repos_selected, selected$prefix[1])
+  f(repos_selected, folders$prefix[selection])
 }
