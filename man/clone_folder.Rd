@@ -11,13 +11,13 @@ clone_folder(selected, dest_dir, postfix = "submissions")
 
 \item{dest_dir}{Destination directory (default: working directory)}
 
-\item{postfix}{user defined ending for folders, defaults to "-submissions"}
+\item{post_fix}{user defined ending for folders, defaults to "-submissions"}
 }
 \description{
 Clone a set of github repos into a folder
 }
 \examples{
 \dontrun{
-ghc("451", clone_folder)
-}
+  ghc("451", clone_folder)
+  }
 }

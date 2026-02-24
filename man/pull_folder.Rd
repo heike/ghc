@@ -11,7 +11,7 @@ pull_folder(selected, dest_dir, postfix = "submissions")
 
 \item{dest_dir}{Destination directory (default: working directory)}
 
-\item{postfix}{user defined ending for folders, defaults to "-submissions"}
+\item{post_fix}{user defined ending for folders, defaults to "-submissions"}
 }
 \value{
 data frame of repositories arranged by date and time of the last push
