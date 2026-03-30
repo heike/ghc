@@ -12,8 +12,10 @@ clone_folder <- function(selected, dest_dir, postfix = "submissions") {
   dest_dir <- paste0(dest_dir, postfix)
   if (!dir.exists(dest_dir)) dir.create(dest_dir)
   # clone directories
-  sapply(selected, FUN = function(x) clone_github_repo(
-    x$html_url,
-    dest_dir = dest_dir
-  ))
+  sapply(selected, FUN = function(x) {
+    clone_github_repo(
+      x$html_url,
+      dest_dir = dest_dir
+    )
+  })
 }

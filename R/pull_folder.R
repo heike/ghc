@@ -20,9 +20,15 @@ pull_folder <- function(selected, dest_dir, postfix = "submissions") {
       stop(sprintf("<%s> does not exist in <%s>", selected[[i]]$name, dest_dir))
     }
     setwd(selected[[i]]$name)
-    system("git stash") # remove any existing changes
-    # Remove untracked files/directories that may block checkout
-    system("git clean -fd")
+    # if the local directory is behind, clean the local directory and
+    # pull
+    msg <- system("git fetch", intern=TRUE)
+
+    if (length(msg) == 0) {
+      system("git stash") # remove any existing changes
+       # Remove untracked files/directories that may block checkout
+      system("git clean -fd")
+    }
     # Pull changes
     pull_status <- system(
       sprintf("git pull")

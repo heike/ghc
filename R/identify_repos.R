@@ -10,31 +10,34 @@
 #' @importFrom rlang .data
 #' @export
 ghc <- function(course = "451", f) {
-#  library(dplyr)
   # get repos
   repos <- get_org_repos(sprintf("stat%s-at-unl", course))
-  names <- repos |> purrr::map_chr(.f=function(x) x |> purrr::pluck("name"))
+  names <- repos |> purrr::map_chr(.f = function(x) purrr::pluck(x, "name"))
   repos_df <- data.frame(names = sort(names))
   repos_dist <- distance_matrix(repos_df$names, "jw", p = .1)
 
   clust <- hclust(as.dist(repos_dist))
   repos_df$cluster <- cutree(clust, h = 0.25)
-  repos_df <- repos_df |> group_by(.data$cluster) |> mutate(
-    prefix = longest_common_prefix(names)
-  )
+  repos_df <- repos_df |>
+    group_by(.data$cluster) |>
+    mutate(
+      prefix = longest_common_prefix(names)
+    )
 
   folders <- repos_df |> group_by(.data$cluster) |>
     summarize(
-      prefix = prefix[1],
-      choice = sprintf("%s (%d)", prefix, n()),
+      prefix = .data$prefix[1],
+      choice = sprintf("%s (%d)", .data$prefix, n()),
       n = n()
-    ) |> arrange(desc(n), prefix) |>
+    ) |> arrange(desc(n), .data$prefix) |>
     filter(n >= 2)
   # which assignment do you want to deal with?
-  selection <- menu(folders$choice, title="Which assignment?")
+  selection <- menu(folders$choice, title = "Which assignment?")
 
-  selected <- repos_df |> dplyr::slice(grep(paste0("^",folders$prefix[selection]), names))
-  repos_selected <- repos |> purrr::keep(.p = function(x) x$name %in% selected$names)
+  selected <- repos_df |>
+    dplyr::slice(grep(paste0("^",folders$prefix[selection]), names))
+  repos_selected <- repos |>
+    purrr::keep(.p = function(x) x$name %in% selected$names)
 
   f(repos_selected, folders$prefix[selection])
 }
