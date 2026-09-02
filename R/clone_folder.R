@@ -2,7 +2,7 @@
 #'
 #' @param selected list of repos as returned from `get_org_repos`
 #' @param dest_dir Destination directory (default: working directory)
-#' @param post_fix user defined ending for folders, defaults to "-submissions"
+#' @param postfix user defined ending for folders, defaults to "-submissions"
 #' @export
 #' @examples
 #' \dontrun{

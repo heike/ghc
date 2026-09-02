@@ -12,9 +12,9 @@ last_pushed <- function(selected, dest_dir) {
     pushed_at = selected |> purrr::map_chr(.f = function(x) x$"pushed_at"))
   dframe |>
     mutate(
-      pushed_at = lubridate::as_datetime(pushed_at)
-    ) |> arrange(desc(pushed_at)) |>
-    select(name, pushed_at)
+      pushed_at = lubridate::as_datetime(.data$pushed_at)
+    ) |> arrange(desc(.data$pushed_at)) |>
+    select(.data$name, .data$pushed_at)
 }
 
 

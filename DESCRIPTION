@@ -11,11 +11,12 @@ Authors@R: c(
   )
 Description: More about what it does (maybe more than one line).
     Continuation lines should be indented.
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.3
+Depends: R (>= 4.1.0)
 Imports: 
+    rlang,
     dplyr,
     gh,
     lubridate,
@@ -23,3 +24,4 @@ Imports:
     stringdist
 URL: https://github.com/heike/ghc
 BugReports: https://github.com/heike/ghc/issues
+Config/roxygen2/version: 8.0.0

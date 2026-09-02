@@ -4,12 +4,14 @@
 \alias{ghc}
 \title{Identify a set of repos from an organization}
 \usage{
-ghc(course = "451", f)
+ghc(course = "451", f, created_after = lubridate::ymd("2026-08-01"))
 }
 \arguments{
 \item{course}{organization to check}
 
 \item{f}{function to be called with the selected repos}
+
+\item{created_after}{cutoff date - no repos created before this date will be considered}
 }
 \value{
 function call to f with the identified repos

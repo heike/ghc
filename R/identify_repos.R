@@ -2,6 +2,7 @@
 #'
 #' @param course organization to check
 #' @param f function to be called with the selected repos
+#' @param created_after cutoff date - no repos created before this date will be considered
 #' @return function call to f with the identified repos
 #' @importFrom stats hclust cutree as.dist
 #' @importFrom utils menu
@@ -9,24 +10,33 @@
 #' @importFrom dplyr group_by arrange summarize mutate filter n desc slice
 #' @importFrom rlang .data
 #' @export
-ghc <- function(course = "451", f) {
+ghc <- function(course = "451", f, created_after = lubridate::ymd("2026-08-01")) {
   # get repos
   repos <- get_org_repos(sprintf("stat%s-at-unl", course))
   names <- repos |> purrr::map_chr(.f = function(x) purrr::pluck(x, "name"))
-  repos_df <- data.frame(names = sort(names))
-  repos_dist <- distance_matrix(repos_df$names, "jw", p = .1)
+  updated_at <- repos |> purrr::map_chr(.f = function(x) purrr::pluck(x, "updated_at"))
+  assignments <- purrr::map_chr(repos, .f = function(x) x$name)
+  # assignments are formed as name-student.git
+  assignments <- gsub("(.*)-.*", "\\1", assignments)
+  repos_df <- data.frame(names = names, assignments = assignments,
+                         updated_at = updated_at) |>
+    mutate(updated_at = lubridate::ymd_hms(updated_at)) |>
+    filter(updated_at > created_after)
 
-  clust <- hclust(as.dist(repos_dist))
-  repos_df$cluster <- cutree(clust, h = 0.25)
-  repos_df <- repos_df |>
-    group_by(.data$cluster) |>
-    mutate(
-      prefix = longest_common_prefix(names)
-    )
+#  repos_dist <- distance_matrix(repos_df$names, "jw", p = .1)
 
-  folders <- repos_df |> group_by(.data$cluster) |>
+#  clust <- hclust(as.dist(repos_dist))
+#  repos_df$cluster <- cutree(clust, h = 0.25)
+  # repos_df <- repos_df |>
+  #   group_by(.data$cloned) |>
+  #   mutate(n = n()) |> arrange(desc(n))
+#    mutate(
+#      prefix = longest_common_prefix(names)
+#    )
+
+  folders <- repos_df |> group_by(.data$assignments) |>
     summarize(
-      prefix = .data$prefix[1],
+      prefix = .data$assignments[1],
       choice = sprintf("%s (%d)", .data$prefix, n()),
       n = n()
     ) |> arrange(desc(n), .data$prefix) |>

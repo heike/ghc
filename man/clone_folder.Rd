@@ -11,7 +11,7 @@ clone_folder(selected, dest_dir, postfix = "submissions")
 
 \item{dest_dir}{Destination directory (default: working directory)}
 
-\item{post_fix}{user defined ending for folders, defaults to "-submissions"}
+\item{postfix}{user defined ending for folders, defaults to "-submissions"}
 }
 \description{
 Clone a set of github repos into a folder
